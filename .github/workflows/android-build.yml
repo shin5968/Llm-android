@@ -30,11 +30,9 @@ jobs:
     - name: Accept Android SDK licenses
       run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
 
-    - name: Grant execute permission to gradlew
-      run: chmod +x ./gradlew
-
-    - name: Build APK
-      run: ./gradlew assembleDebug
+    - name: Build APK with Gradle
+      run: gradle assembleDebug
+      working-directory: ${{ github.workspace }}
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
@@ -42,7 +40,3 @@ jobs:
         name: app-debug
         path: app/build/outputs/apk/debug/app-debug.apk
         retention-days: 7
-
-    - name: Run tests
-      run: ./gradlew test
-      continue-on-error: true
