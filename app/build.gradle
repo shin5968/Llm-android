@@ -1,20 +1,17 @@
-apply plugin: 'com.android.application' 
+plugins {
+    id 'com.android.application'
+}
 
 android {
-    compileSdkVersion 30
+    namespace "com.example.llmandroid"
+    compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.myapp"
-        minSdkVersion 21
-        targetSdkVersion 30
+        applicationId "com.example.llmandroid"
+        minSdk 21
+        targetSdk 33
         versionCode 1
         versionName "1.0"
-
-        externalNativeBuild {
-            cmake {
-                cppFlags "-std=c++11"
-            }
-        }
     }
 
     buildTypes {
@@ -24,15 +21,13 @@ android {
         }
     }
 
-    externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-        }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:30.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
-    // Add other dependencies here
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 }
