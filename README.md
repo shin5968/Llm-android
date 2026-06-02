@@ -1,36 +1,70 @@
-# Llama 3.1 1B Android App
+# Vulkan Diagnostic Android APK
 
-## Setup Instructions
+Minimal Android test app (Kotlin + NDK C++) for checking Vulkan feasibility on target devices (including Samsung Xclipse 940 class GPUs).
 
-Follow the steps below to build the Llama 3.1 1B Android app:
+## What the app does
 
-### Prerequisites
-1. **Java JDK**: Make sure you have the [Java Development Kit](https://www.oracle.com/java/technologies/javase-downloads.html) installed (version 8 or higher).
-2. **Android Studio**: Download and install [Android Studio](https://developer.android.com/studio).
-3. **Android SDK**: Ensure you have the Android SDK installed via Android Studio.
-4. **CMake**: Install CMake from the Android SDK Manager.
+On launch, the app shows:
+- **Run Vulkan Check** button
+- A text result area
 
-### Project Setup
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/shin5968/Llm-android.git
-   cd Llm-android
-   ```
-2. Open the project in Android Studio by importing it. 
-3. Sync the project with Gradle files to download necessary dependencies.
+When you tap the button, native Vulkan code:
+- Enumerates Vulkan instance version
+- Lists instance extensions
+- Checks support for:
+  - `VK_KHR_surface`
+  - `VK_KHR_android_surface`
+- Creates a Vulkan instance (with available required extensions)
+- Enumerates physical devices
+- Prints first physical device properties:
+  - `vendorID`
+  - `deviceID`
+  - `deviceName`
+  - `apiVersion`
+- Returns human-readable errors if Vulkan calls fail
 
-### Building the App
-1. In Android Studio, select the `Build` menu, then click `Make Project`.
-2. Ensure there are no errors in the build process.
-3. Connect your Android device or start an emulator.
-4. Run the app by clicking the green play button in the toolbar.
+## Build in Android Studio
 
-### Troubleshooting
-- If you encounter any issues during the build, check the `Logcat` for errors.
-- Ensure that your Android environment is correctly set up and that all SDK components are up-to-date.
+1. Open `/tmp/workspace/shin5968/Llm-android` in Android Studio.
+2. Install SDK components when prompted:
+   - Android SDK Platform 33
+   - Android SDK Build-Tools
+   - NDK (side-by-side)
+   - CMake
+3. Let Gradle sync complete.
+4. Build with **Build > Make Project**.
+5. Run on a physical device.
 
-### License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+## CLI build
 
-### Contact
-For any inquiries, please reach out to [shin5968](https://github.com/shin5968).
+```sh
+cd /tmp/workspace/shin5968/Llm-android
+gradle assembleDebug
+```
+
+Debug APK output:
+
+`/tmp/workspace/shin5968/Llm-android/app/build/outputs/apk/debug/app-debug.apk`
+
+## Example output
+
+```text
+Vulkan instance version: 1.3.275
+
+Instance extensions (20):
+ - VK_KHR_surface
+ - VK_KHR_android_surface
+ ...
+
+Required extension check:
+ - VK_KHR_surface: SUPPORTED
+ - VK_KHR_android_surface: SUPPORTED
+
+Physical devices: 1
+
+First physical device:
+ - deviceName: ...
+ - vendorID: 0x...
+ - deviceID: 0x...
+ - apiVersion: 1.3.x
+```
