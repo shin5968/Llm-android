@@ -1,17 +1,25 @@
 plugins {
     id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    namespace "com.example.llmandroid"
+    namespace 'com.example.llmandroid'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.llmandroid"
-        minSdk 21
+        applicationId 'com.example.llmandroid'
+        minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        externalNativeBuild {
+            cmake {
+                cppFlags '-std=c++17'
+            }
+        }
     }
 
     buildTypes {
@@ -25,9 +33,21 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    externalNativeBuild {
+        cmake {
+            path 'src/main/cpp/CMakeLists.txt'
+            version '3.22.1'
+        }
+    }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 }

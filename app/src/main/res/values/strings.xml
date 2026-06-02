@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Vulkan Diagnostic</string>
+    <string name="run_vulkan_check">Run Vulkan Check</string>
+    <string name="press_button_prompt">Press \"Run Vulkan Check\" to collect Vulkan info.</string>
+</resources>
